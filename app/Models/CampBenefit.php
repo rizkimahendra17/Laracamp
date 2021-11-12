@@ -10,5 +10,5 @@ class CampBenefit extends Model
     use HasFactory;
 
     //ini kita kenal kan yang hanya bisa di edit
-    protected $fillable = ['name'];
+    protected $fillable = ['camp_id','name'];
 }
