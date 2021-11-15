@@ -1,6 +1,6 @@
 
 {{-- ini agar kita memuncul kan data nya ke app --}}
-@extends('layout.app')
+@extends('layouts.app')
 
 {{-- ini untuk memasukan kontent kita --}}
 @section('content')
@@ -32,7 +32,7 @@
                     </div>
                     <div class="col-lg-1 col-12"></div>
                     <div class="col-lg-6 col-12">
-                        <form action="{{ route('success-checkout') }}" class="basic-form">
+                        <form action="{{ route('success_checkout') }}" class="basic-form">
                             <div class="mb-4">
                                 <label for="exampleInputEmail1" class="form-label">Full Name</label>
                                 <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
