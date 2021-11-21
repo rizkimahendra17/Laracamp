@@ -1,7 +1,8 @@
+
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container">
-        <a class="navbar-brand" href="{{ route('welcome') }}">
-            <img src="{{ asset('images/logo.png') }}" alt="">
+        <a class="navbar-brand" href="{{route('welcome')}}">
+            <img src="{{asset('images/logo.png')}}" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -21,13 +22,34 @@
                     <a class="nav-link" href="#">Business</a>
                 </li>
             </ul>
+
+
+
             <div class="d-flex">
-                <a href="{{ route('login') }}" class="btn btn-master btn-secondary me-3">
-                    Sign In
-                </a>
-                <a href="{{ route('login') }}" class="btn btn-master btn-primary">
-                    Sign Up
-                </a>
+                @auth
+                    <div class="d-flex user-logged nav-item dropdown no-arrow">
+                        <a id="dropdownMenuLink" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><b class="caret"></b>
+
+                        Halo, {{Auth::user()->name}}!
+                        <img src="{{Auth::user()->avatar}}" class="user-photo" alt="" style="border-radius: 50%">
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="right: 0; left: auto">
+                            <li><a class="dropdown-item">My Dashboard</a></li>
+                            <li>
+                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sign Out</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                @else
+                    <a href="{{route('login')}}" class="btn btn-master btn-secondary me-3">
+                        Sign In
+                    </a>
+                    <a href="{{route('login')}}" class="btn btn-master btn-primary">
+                        Sign Up
+                    </a>
+                @endauth
             </div>
         </div>
     </div>
