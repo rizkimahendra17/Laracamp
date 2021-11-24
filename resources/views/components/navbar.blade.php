@@ -33,7 +33,7 @@
                         Halo, {{Auth::user()->name}}!
                         <img src="{{Auth::user()->avatar}}" class="user-photo" alt="" style="border-radius: 50%">
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="right: 0; left: auto">
-                            <li><a class="dropdown-item">My Dashboard</a></li>
+                            <li><a href="{{ route('dashboard') }}" class="dropdown-item">My Dashboard</a></li>
                             <li>
                                 <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sign Out</a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
