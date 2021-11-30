@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers;
 use Laravel\Socialite\Facades\Socialite;
-
+use App\Models\User;
+use Auth;
+use Mail;
+use App\Mail\User\AfterRegister;
+//ini kita kenal kan, email apa yang mau kita panggil
 
 class UserController extends Controller
 {
@@ -27,7 +28,6 @@ class UserController extends Controller
 
        $callback = Socialite::driver('google')->stateless()->user();
 
-
     //    kita pasrsing data nya, data apa yang kita mau ambil
        $data = [
                 'name' => $callback->getName(),
@@ -36,9 +36,21 @@ class UserController extends Controller
                 'email_verified_at' => date('Y-m-d H:i:s', time()),
        ];
 
-       //ini maksud nya kalau ada data yang sama dia gak perlu tambah data
-       //jika tidak ada data nya baru di buat oncreat baru
-        $user = User::firstOrCreate(['email' => $data['email']], $data);
+
+        // $user = User::firstOrCreate(['email' => $data['email']], $data);
+
+
+        //kita cek dulu data nya ada apa enggak
+       $user = User::whereEmail($data['email'])->first();
+
+        //jika tidak user
+       if(!$user){
+           //kita buat data baru
+           $user = User::create($data);
+           //ini fungsi nya kita memberi notifikasi ke email user
+           Mail::to($user->email)->send(new AfterRegister($user));
+       }
+
         Auth::login($user, true);
 
        return redirect(route('welcome'));
