@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Checkout;
 use Auth;
 
 //itu kita ambil data dari model nya dari database
@@ -11,14 +10,17 @@ use Auth;
 
 class HomeController extends Controller
 {
-    public function dashboard(){
+    public function dashboard()
+    {
+        switch (Auth::user()->is_admin) {
+            case true:
+                return redirect(route('admin.dashboard'));
+                break;
 
-        //ini maksud nya mengambil data dari checkout dan camp dimana user_id yang lagi login
-        $checkouts = Checkout::with('Camp')->where('user_id', Auth::id())->get();
+            default:
+                return redirect(route('user.dashboard'));
+                break;
+        }
 
-
-        return view ('user.dashboard',[
-            'checkouts' =>$checkouts
-        ]);
     }
 }
