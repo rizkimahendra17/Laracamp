@@ -4,6 +4,8 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\User\DashboardController as UserDashboard;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,13 +32,25 @@ Route::get('auth/google/callback', [UserController::class, 'handleProviderCallba
 Route::middleware(['auth'])->group(function () {
 
     //route untuk checkout
-    Route::get('checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
-    Route::get('checkout/{camp:slug}', [CheckoutController::class, 'create'])->name('checkout.create');
-    Route::post('checkout/{camp}', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('checkout/success', [CheckoutController::class, 'success'])->name('checkout.success')->middleware('ensureUserRole:user'); //ensure berfungsi untuk memastikan dia sebagai user yang di atur di karnel
+    Route::get('checkout/{camp:slug}', [CheckoutController::class, 'create'])->name('checkout.create')->middleware('ensureUserRole:user');//ensure berfungsi untuk memastikan dia sebagai user yang di atur di karnel
+    Route::post('checkout/{camp}', [CheckoutController::class, 'store'])->name('checkout.store')->middleware('ensureUserRole:user');//ensure berfungsi untuk memastikan dia sebagai user yang di atur di karnel
 
-    //route untuk dashboard
+    //dashboard
     Route::get('dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
-    Route::get('dashboard/checkout/invoice/{checkout}', [CheckoutController::class, 'invoice'])->name('user.checkout.invoice');
+
+    //user dashboard
+    Route::prefix('user/dashboard')->namespace('User')->name('user.')->middleware('ensureUserRole:user')->group(function(){
+        //itu userdashboard di ambil dari namespace, asli nya dashboardcontroller
+        Route::get('/',[UserDashboard::class, 'index'])->name('dashboard');
+    });
+
+    //admin dashboard
+    Route::prefix('admin/dashboard')->namespace('Admin')->name('admin.')->middleware('ensureUserRole:admin')->group(function(){
+        //sama kayak user adminnya juga
+        Route::get('/',[AdminDashboard::class, 'index'])->name('dashboard');
+    });
+
 
 });
 

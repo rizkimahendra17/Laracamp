@@ -31,7 +31,17 @@
                         <a id="dropdownMenuLink" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><b class="caret"></b>
 
                         Halo, {{Auth::user()->name}}!
+
+                        {{-- kita buat kondisi dia disini kalau gak ada avatar --}}
+                        @if (Auth::user()->avatar)
+
                         <img src="{{Auth::user()->avatar}}" class="user-photo" alt="" style="border-radius: 50%">
+                        @else
+                        <img src="https://ui-avatars.com/api/?name=Admin" class="user-photo" alt="" style="border-radius: 50%">
+                        @endif
+
+
+
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="right: 0; left: auto">
                             <li><a href="{{ route('dashboard') }}" class="dropdown-item">My Dashboard</a></li>
                             <li>
