@@ -30,9 +30,9 @@ Route::get('auth/google/callback', [UserController::class, 'handleProviderCallba
 
 //Midtrans Route
 //get kalau orang nya bayar pakai e-walet
-Route::get('payment/success', [UserController::class, 'midtransCallback']);
+Route::get('payment/success', [CheckoutController::class, 'midtransCallback']);
 //post kita gunakan untuk ketika orang nya bayar ke indomaret dan lain2
-Route::post('payment/success', [UserController::class, 'midtransCallback']);
+Route::post('payment/success', [CheckoutController::class, 'midtransCallback']);
 
 
 //ini dibuat untuk halaman yang bisa di akses ketika sudah login
