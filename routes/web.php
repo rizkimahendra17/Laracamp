@@ -28,6 +28,12 @@ Route::get('/', function () {
 Route::get('sign-in-google', [UserController::class, 'google'])->name('user.login.google');
 Route::get('auth/google/callback', [UserController::class, 'handleProviderCallback'])->name('user.google.callback');
 
+//Midtrans Route
+//get kalau orang nya bayar pakai e-walet
+Route::get('payment/success', [CheckoutController::class, 'midtransCallback']);
+//post kita gunakan untuk ketika orang nya bayar ke indomaret dan lain2
+Route::post('payment/success', [CheckoutController::class, 'midtransCallback']);
+
 
 //ini dibuat untuk halaman yang bisa di akses ketika sudah login
 Route::middleware(['auth'])->group(function () {
